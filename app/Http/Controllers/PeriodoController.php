@@ -36,7 +36,8 @@ class PeriodoController extends Controller
     public function store(Request $request)
     {
         $datos = $request->validate([
-            'codigo'       => ['required', 'string', 'max:20', 'unique:Periodos,codigo'],
+            'codigo'       => ['required', 'string', 'max:20', 'unique:periodos,codigo'],
+
             'fecha_inicio' => ['required', 'date'],
             'fecha_fin'    => ['required', 'date', 'after:fecha_inicio'],
         ]);
@@ -54,7 +55,8 @@ class PeriodoController extends Controller
     public function update(Request $request, Periodo $periodo)
     {
         $datos = $request->validate([
-            'codigo'       => ['required', 'string', 'max:20', 'unique:Periodos,codigo,' . $periodo->id],
+            'codigo'       => ['required', 'string', 'max:20', 'unique:periodos,codigo,' . $periodo->id],
+
             'fecha_inicio' => ['required', 'date'],
             'fecha_fin'    => ['required', 'date', 'after:fecha_inicio'],
         ]);

@@ -23,7 +23,8 @@ class InscripcionController extends Controller
         $datos = $request->validate([
             'correo_institucional' => [
                 'required', 'email', 'max:150',
-                'unique:Usuarios,correo_institucional',
+                'unique:usuarios,correo_institucional',
+
             ],
             'password'             => ['required', 'string', 'min:8', 'confirmed'],
             'consentimiento'       => ['accepted'],
@@ -70,7 +71,8 @@ class InscripcionController extends Controller
         }
 
         $datos = $request->validate([
-            'carrera_id' => ['required', 'exists:Carreras,id'],
+            'carrera_id' => ['required', 'exists:carreras,id'],
+
         ], [
             'carrera_id.required' => 'Debes seleccionar una carrera.',
         ]);
@@ -108,7 +110,8 @@ class InscripcionController extends Controller
         $datos = $request->validate([
             'nombres'              => ['required', 'string', 'max:100'],
             'apellidos'            => ['required', 'string', 'max:100'],
-            'curp'                 => ['required', 'string', 'size:18', 'unique:Alumnos,curp'],
+            'curp'                 => ['required', 'string', 'size:18', 'unique:alumnos,curp'],
+
             'escuela_procedencia'  => ['required', 'string', 'max:200'],
             'foto'                 => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
             'certificado'          => ['required', 'file', 'mimes:pdf', 'max:5120'],

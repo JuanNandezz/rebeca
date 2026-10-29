@@ -79,7 +79,14 @@
                         <i class="bi bi-people-fill me-2"></i>Usuarios
                     </a>
                 </li>
+                <div class="section-title">Bitácora</div>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('bitacora.index') ? 'active' : '' }}" href="{{ route('bitacora.index') }}">
+                        <i class="bi bi-display me-2"></i>Monitor del Sistema
+                    </a>
+                </li>
             @endif
+
  
             {{-- COORDINADOR --}}
             @if($rol === 'Coordinador de Carrera')

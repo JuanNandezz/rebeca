@@ -8,10 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('DocumentosAlumnos', function (Blueprint $table) {
+        Schema::create('documentos_alumnos', function (Blueprint $table) {
             $table->id();
             $table->integer('alumno_id');
-            $table->foreign('alumno_id')->references('id')->on('Alumnos')->cascadeOnDelete();
+            $table->foreign('alumno_id')->references('id')->on('alumnos')->cascadeOnDelete();
             $table->enum('tipo', ['foto', 'certificado']);
             $table->string('ruta_archivo', 500);
             $table->string('nombre_original', 255);
@@ -21,6 +21,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('DocumentosAlumnos');
+        Schema::dropIfExists('documentos_alumnos');
     }
+
 };

@@ -15,7 +15,8 @@ class UsuarioController extends Controller
      * El Admin no está aquí porque él puede crear TODOS.
      */
     private const PUEDE_CREAR = [
-        'Director'               => ['Director', 'Coordinador de Carrera', 'Docente', 'Alumno', 'Contador'],
+        'Director'               => ['Director', 'Coordinador de Carrera', 'Personal Administrativo', 'Docente', 'Alumno'],
+
         'Coordinador de Carrera' => ['Docente', 'Alumno'],
         'Docente'                => ['Alumno'],
     ];
@@ -46,7 +47,8 @@ class UsuarioController extends Controller
         // Roles que el usuario actual puede VER según jerarquía
         $rolesVisibles = match ($rolActual) {
             'Admin'                => null,                                                         // ve todos
-            'Director'             => ['Director', 'Coordinador de Carrera', 'Docente', 'Alumno', 'Contador'],
+            'Director'             => ['Director', 'Coordinador de Carrera', 'Personal Administrativo', 'Docente', 'Alumno'],
+
             'Coordinador de Carrera' => ['Docente', 'Alumno'],
             'Docente'              => ['Alumno'],
             default                => [],

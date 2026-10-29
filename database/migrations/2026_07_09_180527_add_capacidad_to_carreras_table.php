@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('Carreras', function (Blueprint $table) {
+        Schema::table('carreras', function (Blueprint $table) {
             $table->unsignedSmallInteger('capacidad')->default(300)->after('total_creditos');
         });
     }
@@ -21,8 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('Carreras', function (Blueprint $table) {
+        Schema::table('carreras', function (Blueprint $table) {
             $table->dropColumn('capacidad');
         });
     }
+
 };

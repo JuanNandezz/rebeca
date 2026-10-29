@@ -29,9 +29,10 @@ class KardexInscripcionController extends Controller
     public function store(Request $request)
     {
         $datos = $request->validate([
-            'alumno_id'          => ['required', 'exists:Alumnos,id'],
-            'grupo_id'           => ['required', 'exists:Grupos,id'],
-            'tipo_evaluacion_id' => ['required', 'exists:Tipos_Evaluacion,id'],
+            'alumno_id'          => ['required', 'exists:alumnos,id'],
+            'grupo_id'           => ['required', 'exists:grupos,id'],
+            'tipo_evaluacion_id' => ['required', 'exists:tipos_evaluacion,id'],
+
             'calificacion_final' => ['nullable', 'numeric', 'min:0', 'max:10'],
             'estatus_materia'    => ['nullable', 'string', 'max:50'],
         ]);
@@ -59,7 +60,8 @@ class KardexInscripcionController extends Controller
     public function update(Request $request, KardexInscripcion $kardex)
     {
         $datos = $request->validate([
-            'tipo_evaluacion_id' => ['required', 'exists:Tipos_Evaluacion,id'],
+            'tipo_evaluacion_id' => ['required', 'exists:tipos_evaluacion,id'],
+
             'calificacion_final' => ['nullable', 'numeric', 'min:0', 'max:10'],
             'estatus_materia'    => ['nullable', 'string', 'max:50'],
         ]);
@@ -81,10 +83,13 @@ class KardexInscripcionController extends Controller
     public function miKardex()
     {
         $alumno = Auth::user()->alumno;
+        abort_unless($alumno, 404, 'No se encontró un expediente de alumno para este usuario.');
+
         $inscripciones = $alumno->kardexInscripciones()->with(['grupo.materia', 'grupo.periodo', 'tipoEvaluacion'])->get();
 
         return view('kardex.mi-kardex', compact('alumno', 'inscripciones'));
     }
+
 
     /**
      * Lista de grupos asignados al docente autenticado (para captura de calificaciones).
@@ -92,12 +97,15 @@ class KardexInscripcionController extends Controller
     public function misGrupos()
     {
         $docente = Auth::user()->docente;
+        abort_unless($docente, 404, 'No se encontró un perfil de docente para este usuario.');
+
         $grupos  = Grupo::with(['materia', 'periodo', 'kardexInscripciones'])
                         ->where('docente_id', $docente->id)
                         ->get();
 
         return view('kardex.mis-grupos', compact('grupos'));
     }
+
 
     /**
      * Muestra alumnos del grupo con campos editables de calificación.
@@ -128,8 +136,9 @@ class KardexInscripcionController extends Controller
 
         $request->validate([
             'calificaciones'                       => ['required', 'array'],
-            'calificaciones.*.kardex_id'           => ['required', 'exists:Kardex_Inscripciones,id'],
-            'calificaciones.*.tipo_evaluacion_id'  => ['required', 'exists:Tipos_Evaluacion,id'],
+            'calificaciones.*.kardex_id'           => ['required', 'exists:kardex_inscripciones,id'],
+            'calificaciones.*.tipo_evaluacion_id'  => ['required', 'exists:tipos_evaluacion,id'],
+
             'calificaciones.*.calificacion_final'  => ['nullable', 'numeric', 'min:0', 'max:10'],
             'calificaciones.*.estatus_materia'     => ['required', 'string', 'max:50'],
         ]);

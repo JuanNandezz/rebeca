@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class KardexInscripcion extends Model
 {
-    protected $table = 'Kardex_Inscripciones';
+    protected $table = 'kardex_inscripciones';
     public $timestamps = false;
 
     // La clave primaria es BIGINT

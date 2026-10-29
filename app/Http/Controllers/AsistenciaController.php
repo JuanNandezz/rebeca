@@ -19,6 +19,7 @@ class AsistenciaController extends Controller
     public function index()
     {
         $docente = Auth::user()->docente;
+        abort_unless($docente, 404, 'No se encontró un perfil de docente para este usuario.');
 
         $diasEsp = [
             0 => 'Domingo',
@@ -95,7 +96,8 @@ class AsistenciaController extends Controller
         $request->validate([
             'fecha'                          => ['required', 'date'],
             'asistencias'                    => ['required', 'array'],
-            'asistencias.*.alumno_id'        => ['required', 'exists:Alumnos,id'],
+            'asistencias.*.alumno_id'        => ['required', 'exists:alumnos,id'],
+
             'asistencias.*.estatus_asistencia' => ['required', 'in:Presente,Ausente,Justificada'],
         ]);
 
@@ -154,8 +156,11 @@ class AsistenciaController extends Controller
     public function misAsistencias()
     {
         $alumno      = Auth::user()->alumno;
+        abort_unless($alumno, 404, 'No se encontró un expediente de alumno para este usuario.');
+
         $asistencias = $alumno->asistencias()->with(['grupo.materia'])->orderByDesc('fecha')->get();
 
         return view('asistencias.mis-asistencias', compact('alumno', 'asistencias'));
     }
+
 }

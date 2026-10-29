@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class HorarioGrupo extends Model
 {
-    protected $table = 'Horarios_Grupo';
+    protected $table = 'horarios_grupo';
     public $timestamps = false;
 
     protected $fillable = [

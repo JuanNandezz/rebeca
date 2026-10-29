@@ -7,6 +7,7 @@ use App\Models\Usuario;
 use App\Models\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class DocenteController extends Controller
 {
@@ -24,29 +25,31 @@ class DocenteController extends Controller
     public function store(Request $request)
     {
         $datos = $request->validate([
-            'correo_institucional' => ['required', 'email', 'max:150', 'unique:Usuarios,correo_institucional'],
+            'correo_institucional' => ['required', 'email', 'max:150', 'unique:usuarios,correo_institucional'],
             'password'             => ['required', 'string', 'min:8'],
-            'numero_empleado'      => ['required', 'string', 'max:50', 'unique:Docentes,numero_empleado'],
+            'numero_empleado'      => ['required', 'string', 'max:50', 'unique:docentes,numero_empleado'],
             'nombres'              => ['required', 'string', 'max:100'],
             'apellidos'            => ['required', 'string', 'max:100'],
             'especialidad'         => ['nullable', 'string', 'max:150'],
         ]);
 
-        $rolDocente = Rol::where('nombre', 'Docente')->firstOrFail();
+        DB::transaction(function () use ($datos) {
+            $rolDocente = Rol::where('nombre', 'Docente')->firstOrFail();
 
-        $usuario = Usuario::create([
-            'rol_id'               => $rolDocente->id,
-            'correo_institucional' => $datos['correo_institucional'],
-            'password_hash'        => Hash::make($datos['password']),
-        ]);
+            $usuario = Usuario::create([
+                'rol_id'               => $rolDocente->id,
+                'correo_institucional' => $datos['correo_institucional'],
+                'password_hash'        => Hash::make($datos['password']),
+            ]);
 
-        Docente::create([
-            'usuario_id'      => $usuario->id,
-            'numero_empleado' => $datos['numero_empleado'],
-            'nombres'         => $datos['nombres'],
-            'apellidos'       => $datos['apellidos'],
-            'especialidad'    => $datos['especialidad'],
-        ]);
+            Docente::create([
+                'usuario_id'      => $usuario->id,
+                'numero_empleado' => $datos['numero_empleado'],
+                'nombres'         => $datos['nombres'],
+                'apellidos'       => $datos['apellidos'],
+                'especialidad'    => $datos['especialidad'],
+            ]);
+        });
 
         return redirect()->route('docentes.index')->with('exito', 'Docente registrado correctamente.');
     }
@@ -65,7 +68,7 @@ class DocenteController extends Controller
     public function update(Request $request, Docente $docente)
     {
         $datos = $request->validate([
-            'numero_empleado' => ['required', 'string', 'max:50', 'unique:Docentes,numero_empleado,' . $docente->id],
+            'numero_empleado' => ['required', 'string', 'max:50', 'unique:docentes,numero_empleado,' . $docente->id],
             'nombres'         => ['required', 'string', 'max:100'],
             'apellidos'       => ['required', 'string', 'max:100'],
             'especialidad'    => ['nullable', 'string', 'max:150'],
@@ -78,7 +81,15 @@ class DocenteController extends Controller
 
     public function destroy(Docente $docente)
     {
-        $docente->delete();
+        DB::transaction(function () use ($docente) {
+            $usuario = $docente->usuario;
+            $docente->delete();
+            if ($usuario) {
+                $usuario->delete();
+            }
+        });
+
         return redirect()->route('docentes.index')->with('exito', 'Docente eliminado correctamente.');
     }
 }
+

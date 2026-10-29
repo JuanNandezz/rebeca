@@ -47,7 +47,8 @@ class BitacoraAuditoriaController extends Controller
         // Roles cuyos registros puede ver este usuario
         $rolesVisibles = match ($rolActual) {
             'Admin'                  => null,   // sin restricción
-            'Director'               => ['Director', 'Coordinador de Carrera', 'Docente', 'Alumno', 'Contador'],
+            'Director'               => ['Director', 'Coordinador de Carrera', 'Personal Administrativo', 'Docente', 'Alumno'],
+
             'Coordinador de Carrera' => ['Docente', 'Alumno'],
             'Docente'                => ['Alumno'],
             default                  => [],
@@ -94,7 +95,8 @@ class BitacoraAuditoriaController extends Controller
  
         $rolesVisibles = $rolActual === 'Admin'
             ? null
-            : ['Director', 'Coordinador de Carrera', 'Docente', 'Alumno', 'Contador'];
+            : ['Director', 'Coordinador de Carrera', 'Personal Administrativo', 'Docente', 'Alumno'];
+
  
         $idsPermitidos = $rolesVisibles
             ? Usuario::whereHas('rol', fn($q) => $q->whereIn('nombre', $rolesVisibles))->pluck('id')

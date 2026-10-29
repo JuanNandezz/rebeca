@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Asistencia extends Model
 {
-    protected $table = 'Asistencias';
+    protected $table = 'asistencias';
     public $timestamps = false;
 
     // La clave primaria es BIGINT

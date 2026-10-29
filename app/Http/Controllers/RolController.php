@@ -27,7 +27,8 @@ public function index(Request $request)
     public function store(Request $request)
     {
         $datos = $request->validate([
-            'nombre'      => ['required', 'string', 'max:50', 'unique:Roles,nombre'],
+            'nombre'      => ['required', 'string', 'max:50', 'unique:roles,nombre'],
+
             'descripcion' => ['nullable', 'string'],
         ]);
 
@@ -44,7 +45,8 @@ public function index(Request $request)
     public function update(Request $request, Rol $rol)
     {
         $datos = $request->validate([
-            'nombre'      => ['required', 'string', 'max:50', 'unique:Roles,nombre,' . $rol->id],
+            'nombre'      => ['required', 'string', 'max:50', 'unique:roles,nombre,' . $rol->id],
+
             'descripcion' => ['nullable', 'string'],
         ]);
 

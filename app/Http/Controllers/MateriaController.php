@@ -23,8 +23,9 @@ class MateriaController extends Controller
     public function store(Request $request)
     {
         $datos = $request->validate([
-            'carrera_id'       => ['required', 'exists:Carreras,id'],
-            'clave_materia'    => ['required', 'string', 'max:50', 'unique:Materias,clave_materia'],
+            'carrera_id'       => ['required', 'exists:carreras,id'],
+            'clave_materia'    => ['required', 'string', 'max:50', 'unique:materias,clave_materia'],
+
             'nombre'           => ['required', 'string', 'max:150'],
             'creditos'         => ['required', 'integer', 'min:1'],
             'semestre_sugerido'=> ['nullable', 'integer', 'min:1'],
@@ -44,8 +45,9 @@ class MateriaController extends Controller
     public function update(Request $request, Materia $materia)
     {
         $datos = $request->validate([
-            'carrera_id'       => ['required', 'exists:Carreras,id'],
-            'clave_materia'    => ['required', 'string', 'max:50', 'unique:Materias,clave_materia,' . $materia->id],
+            'carrera_id'       => ['required', 'exists:carreras,id'],
+            'clave_materia'    => ['required', 'string', 'max:50', 'unique:materias,clave_materia,' . $materia->id],
+
             'nombre'           => ['required', 'string', 'max:150'],
             'creditos'         => ['required', 'integer', 'min:1'],
             'semestre_sugerido'=> ['nullable', 'integer', 'min:1'],

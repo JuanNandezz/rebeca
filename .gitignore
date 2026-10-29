@@ -22,3 +22,11 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Bases de datos SQLite locales
+saes_db
+*.sqlite
+*.sqlite3
+
+composer.phar
+

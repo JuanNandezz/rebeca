@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Usuario extends Authenticatable
 {
-    protected $table = 'Usuarios';
+    protected $table = 'usuarios';
     public $timestamps = false;
 
     // Laravel busca 'email' por defecto; sobreescribimos con nuestro campo

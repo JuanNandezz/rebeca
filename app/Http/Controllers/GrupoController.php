@@ -30,12 +30,13 @@ class GrupoController extends Controller
     public function store(Request $request)
     {
         $datos = $request->validate([
-            'periodo_id'  => ['required', 'exists:Periodos,id'],
-            'materia_id'  => ['required', 'exists:Materias,id'],
-            'docente_id'  => ['required', 'exists:Docentes,id'],
-            'aula_id'     => ['required', 'exists:Aulas,id'],
+            'periodo_id'  => ['required', 'exists:periodos,id'],
+            'materia_id'  => ['required', 'exists:materias,id'],
+            'docente_id'  => ['required', 'exists:docentes,id'],
+            'aula_id'     => ['required', 'exists:aulas,id'],
             'cupo_maximo' => ['required', 'integer', 'min:1'],
         ]);
+
 
         Grupo::create($datos);
 
@@ -61,12 +62,13 @@ class GrupoController extends Controller
     public function update(Request $request, Grupo $grupo)
     {
         $datos = $request->validate([
-            'periodo_id'  => ['required', 'exists:Periodos,id'],
-            'materia_id'  => ['required', 'exists:Materias,id'],
-            'docente_id'  => ['required', 'exists:Docentes,id'],
-            'aula_id'     => ['required', 'exists:Aulas,id'],
+            'periodo_id'  => ['required', 'exists:periodos,id'],
+            'materia_id'  => ['required', 'exists:materias,id'],
+            'docente_id'  => ['required', 'exists:docentes,id'],
+            'aula_id'     => ['required', 'exists:aulas,id'],
             'cupo_maximo' => ['required', 'integer', 'min:1'],
         ]);
+
 
         $grupo->update($datos);
 

@@ -8,15 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('Alumnos', function (Blueprint $table) {
+        Schema::table('alumnos', function (Blueprint $table) {
             $table->string('escuela_procedencia', 200)->nullable()->after('curp');
         });
     }
 
     public function down(): void
     {
-        Schema::table('Alumnos', function (Blueprint $table) {
+        Schema::table('alumnos', function (Blueprint $table) {
             $table->dropColumn('escuela_procedencia');
         });
     }
+
 };
